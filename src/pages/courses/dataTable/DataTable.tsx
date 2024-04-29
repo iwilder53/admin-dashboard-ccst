@@ -6,7 +6,7 @@ import {
 import "./dataTable.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { backend } from "../../endpoint";
+import { backend } from "../../../endpoint";
 
 type Props = {
 

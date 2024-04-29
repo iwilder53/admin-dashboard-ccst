@@ -3,32 +3,32 @@ import DataTable from "../../components/dataTable/DataTable";
 import "./students.scss";
 import { useState } from "react";
 import Add from "../../components/add/Add";
+import { backend } from "../../endpoint";
 import { useQuery } from "@tanstack/react-query";
 // import { useQuery } from "@tanstack/react-query";
 export interface Item {
   "attendance": [],
   "_id": string,
-  "course": any,
   "firstName": string,
   "lastName": string,
   "middleName": string,
   "phone": number,
   "roll": number,
-  "semester": string,
+  "semester": string, "password": string,
   "teacher": boolean,
   "userName": string
 }
 
 const columns: GridColDef[] = [
-  /*   { field: "id", headerName: "ID", width: 90 },
-   {
-      field: "img",
-      headerName: "Avatar",
-      width: 100,
-      renderCell: (params) => {
-        return <img src={params.row.img || "/noavatar.png"} alt="" />;
-      },
-    }, */
+  /*   { field: "id", headerName: "ID", width: 90 },*/
+  {
+    field: "img",
+    headerName: "Avatar",
+    width: 100,
+    renderCell: (params) => {
+      return <img src={params.row.img || `https://ui-avatars.com/api/?name=${params.row.firstName}+${params.row.lastName}`} alt="" />;
+    },
+  },
   {
     field: "firstName",
     type: "string",
@@ -39,6 +39,16 @@ const columns: GridColDef[] = [
     field: "lastName",
     type: "string",
     headerName: "Last name",
+    width: 150,
+  }, {
+    field: "teacher",
+    type: "string",
+    headerName: "isTeacher",
+    width: 150,
+  }, {
+    field: "userName",
+    type: "string",
+    headerName: "username",
     width: 150,
   },
   {
@@ -59,6 +69,19 @@ const columns: GridColDef[] = [
     headerName: "Email",
     width: 150,
     type: "string",
+  }, {
+    field: "password",
+    type: "string",
+    headerName: "Passsword hash",
+    width: 150,
+  }, {
+    field: "course",
+
+    renderCell: (params) => {
+      return <a >{params.row.course.course ? params.row.course.course! : 'not available'}</a>;
+    },
+    headerName: "Course",
+    width: 150,
   },
 ];
 
@@ -72,12 +95,15 @@ const Students = () => {
   const { isLoading, data } = useQuery({
     queryKey: ["allusers"],
     queryFn: () =>
-      fetch("http://localhost:7200/api/user/getstudents").then(
-        (res) => res.json()
+      fetch(`${backend}/api/user/getstudents`).then(
+        (res) =>
+
+          res.json()
 
       ),
   })
-  // console.log(data);
+
+  console.log(data);
 
 
   return (
@@ -93,7 +119,7 @@ const Students = () => {
       ) : (
         <DataTable slug="student" columns={columns} rows={data} />
       )}
-      {open && <Add slug="student" columns={columns} setOpen={setOpen} />}
+      {open && <Add slug="student" columns={columns} data={data} setOpen={setOpen} endpoint="user/addstudent" />}
     </div>
   );
 };

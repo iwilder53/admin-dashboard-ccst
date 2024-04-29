@@ -2,19 +2,26 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import "./pieChartBox.scss";
 
 
-type PieChartBoxProps = {
+export type PieChartBoxProps = {
 
   name: string,
   value: number,
   color: string
 }
-export const data = [
-  { name: "Science", value: 400, color: "#0088FE" },
-  { name: "Commerce", value: 300, color: "#00C49F" },
-  { name: "Management", value: 300, color: "#FFBB28" },
-  { name: "Technology", value: 200, color: "#FF8042" },
-];
-const PieChartBox = () => {
+
+const PieChartBox = (props: {
+
+  name: string,
+  value: number,
+  color: string
+}[]) => {
+  const data: PieChartBoxProps[] = [];
+  for (const prop in props) {
+
+    console.log(props[prop])
+    data.push(props[prop])
+  }
+  console.log(data)
   return (
     <div className="pieChartBox">
       <h1>Sources</h1>

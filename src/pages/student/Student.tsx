@@ -14,7 +14,7 @@ const Student = () => {
   const { isLoading, data } = useQuery({
     queryKey: [id],
     queryFn: () =>
-      fetch(`http://localhost:7200/api/user/getstudent/${id}`,).then(
+      fetch(`${backend}/api/user/getstudent/${id}`,).then(
         (res) => res.json()
 
       ),

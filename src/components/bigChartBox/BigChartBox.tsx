@@ -7,53 +7,35 @@ import {
   YAxis,
 } from "recharts";
 import "./bigChartBox.scss";
+export type bigChartBoxProps = {
+  name: string,
+  data: object
+};
+type Keys<T> = { [K in keyof T]: K }; // Mapped type to infer keys
 
-const data = [
-  {
-    name: "Sun",
-    msc: 12,
-    bsc: 120,
-    bca: 240,
-  },
-  {
-    name: "Mon",
-    msc: 9,
-    bsc: 82,
-    bca: 210,
-  },
-  {
-    name: "Tue",
-    msc: 5,
-    bsc: 90,
-    bca: 200,
-  },
-  {
-    name: "Wed",
-    msc: 8,
-    bsc: 80,
-    bca: 120,
-  },
-  {
-    name: "Thu",
-    msc: 9,
-    bsc: 88,
-    bca: 99,
-  },
-  {
-    name: "Fri",
-    msc: 4,
-    bsc: 98,
-    bca: 174,
-  },
-  {
-    name: "Sat",
-    msc: 4,
-    bsc: 78,
-    bca: 124,
-  },
-];
+// Function to get keys using mapped type
+function getKeys<T extends object>(obj: T): Keys<T>[keyof T][] {
+  // Return the keys as an array of their own types
+  return Object.keys(obj) as Keys<T>[keyof T][];
+}
+function randomHexColorCode() {
+  let n = (Math.random() * 0xfffff * 1000000).toString(16);
+  return '#' + n.slice(0, 6);
+}
 
-const BigChartBox = () => {
+const BigChartBox = (props: bigChartBoxProps[]) => {
+
+
+  const dataKeys = getKeys(props[0]);
+  const data: bigChartBoxProps[] = [];
+  for (const prop in props) {
+
+    console.log(props[prop])
+    data.push(props[prop])
+  }
+  console.log(data)
+
+  console.log('Data for Big Chart Box  '); console.log(props);
   return (
     <div className="bigChartBox">
       <h1>Analytics</h1>
@@ -69,16 +51,23 @@ const BigChartBox = () => {
             }}
           >
             <XAxis dataKey="name" />
+
+
             <YAxis />
             <Tooltip />
-            <Area
-              type="monotone"
-              dataKey="msc"
-              stackId="1"
-              stroke="#8884d8"
-              fill="#8884d8"
-            />
-            <Area
+            {dataKeys.filter((item) => item !== "name").map((e, i) => (
+
+              <Area key={i.toString()}
+                type="monotone"
+                dataKey={e}
+                stackId="1"
+                stroke={randomHexColorCode()}
+                fill={randomHexColorCode()}
+              />
+
+            ))}
+
+            {/*     <Area
               type="monotone"
               dataKey="bsc"
               stackId="1"
@@ -91,7 +80,7 @@ const BigChartBox = () => {
               stackId="1"
               stroke="#ffc658"
               fill="#ffc658"
-            />
+            /> */}
           </AreaChart>
         </ResponsiveContainer>
       </div>

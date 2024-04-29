@@ -1,21 +1,37 @@
 import "./topBox.scss"
-import { topDealUsers } from "../../data.ts"
+export type TopBoxProps =
+  {
+    id: number,
+    img?: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    attendance: object[],
+  }
 
-const TopBox = () => {
+const TopBox = (props: TopBoxProps[]) => {
+  const data: TopBoxProps[] = [];
+  for (const prop in props) {
+
+    console.log(props[prop])
+    data.push(props[prop])
+  }
+  console.log(data)
+
   return (
     <div className="topBox">
-      <h1>Top Weekly Average</h1>
+      <h1>Lecture Count Average</h1>
       <div className="list">
-        {topDealUsers.map(user => (
+        {data.map(user => (
           <div className="listItem" key={user.id}>
             <div className="user">
-              <img src={user.img} alt="" />
+              <img src={`https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}`} alt="" />
               <div className="userTexts">
-                <span className="username">{user.username}</span>
+                <span className="username">{user.firstName} {user.lastName}</span>
                 <span className="email">{user.email}</span>
               </div>
             </div>
-            <span className="amount">{user.students}</span>
+            <span className="amount">{user.attendance.length.toString()}</span>
           </div>
         ))}
       </div>

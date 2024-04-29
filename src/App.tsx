@@ -13,6 +13,8 @@ import {
 } from "@tanstack/react-query";
 import Students from "./pages/students/Students";
 import Student from "./pages/student/Student";
+import Courses from "./pages/courses/Courses";
+import Timetable from "./pages/Timetable/Timetable";
 
 
 const queryClient = new QueryClient();
@@ -53,7 +55,19 @@ function App() {
           path: "/student/:id",
           element: <Student />,
         },
+        {
+          path: "/Courses"
+          , element: <Courses />
+        },
         
+        {
+          path: "/Course/:id"
+          , element: <Courses />
+        }, 
+        {
+          path: "/Timetable"
+          , element: <Timetable />
+        }
       ],
     },
     {
